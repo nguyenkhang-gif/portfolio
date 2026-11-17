@@ -2,6 +2,8 @@ import Image from "next/image";
 import HeroScene from "@/components/HeroScene";
 import Reveal from "@/components/Reveal";
 import TiltCard from "@/components/TiltCard";
+import SkillsGlobe from "@/components/SkillsGlobe";
+import MobileMenu from "@/components/MobileMenu";
 import velaShot from "@/assets/vela-one.jpg";
 import { experience, featured, links, projects, skills, stats } from "@/data";
 
@@ -40,16 +42,19 @@ export default function Home() {
             <a href="#skills" className="hover:text-white">Skills</a>
             <a href="#about" className="hover:text-white">About</a>
           </div>
-          <a href={links.upwork} {...ext} className="btn-primary !px-4 !py-2 text-sm">Hire me</a>
+          <div className="flex items-center gap-2">
+            <a href={links.upwork} {...ext} className="btn-primary !px-4 !py-2 text-sm">Hire me</a>
+            <MobileMenu />
+          </div>
         </nav>
       </header>
 
       <main id="top">
         {/* Hero */}
-        <section className="hero relative flex min-h-[100svh] items-center overflow-hidden">
+        <section className="hero relative flex min-h-[100svh] items-end overflow-hidden md:items-center">
           <HeroScene />
           <div className="hero-shade pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto w-full max-w-6xl px-5 pt-24">
+          <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-[40svh] md:pb-0 md:pt-24">
             <div className="max-w-2xl">
               <p className="eyebrow fade-up">Khang Nguyen · Full-stack developer</p>
               <h1 className="fade-up mt-5 font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-white md:text-7xl" style={{ animationDelay: "80ms" }}>
@@ -171,7 +176,12 @@ export default function Home() {
         {/* Skills */}
         <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
           <Heading n="03 — Skills" title="Tools I reach for" id="skills" />
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
+          <Reveal>
+            <SkillsGlobe items={skills.flatMap((g) => g.items)} />
+            <p className="mt-2 text-center text-xs text-slate-500">Drag to spin</p>
+          </Reveal>
+          <div className="grid gap-4 sm:grid-cols-2">
             {skills.map((g, i) => (
               <Reveal key={g.group} delay={i * 80}>
                 <TiltCard className="card h-full p-6">
@@ -180,6 +190,7 @@ export default function Home() {
                 </TiltCard>
               </Reveal>
             ))}
+          </div>
           </div>
         </section>
 

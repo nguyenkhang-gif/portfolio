@@ -38,9 +38,11 @@ export default function HeroScene() {
     const ico = new THREE.IcosahedronGeometry(2.3, 1);
     const wireGeo = new THREE.WireframeGeometry(ico);
     const wireMat = new THREE.LineBasicMaterial({ color: 0x60a5fa, transparent: true, opacity: 0.5 });
-    shape.add(new THREE.LineSegments(wireGeo, wireMat));
-    const dotMat = new THREE.PointsMaterial({ color: 0xbfdbfe, size: 0.08 });
-    shape.add(new THREE.Points(ico, dotMat));
+    const shell = new THREE.Group();
+    shape.add(shell);
+    shell.add(new THREE.LineSegments(wireGeo, wireMat));
+    const dotMat = new THREE.PointsMaterial({ color: 0xbfdbfe, size: 0.08, transparent: true });
+    shell.add(new THREE.Points(ico, dotMat));
 
     // faceted core
     const coreGeo = new THREE.IcosahedronGeometry(1.35, 0);
@@ -78,6 +80,15 @@ export default function HeroScene() {
     ring.rotation.set(1.2, 0, 0.35);
     rig.add(ring);
 
+    // small satellites orbiting the core
+    const satGeo = new THREE.OctahedronGeometry(0.16, 0);
+    const satMat = new THREE.MeshStandardMaterial({ color: 0xa5b4fc, metalness: 0.2, roughness: 0.3, flatShading: true, emissive: 0x6366f1, emissiveIntensity: 0.3 });
+    const sats = [0, 1, 2].map((i) => {
+      const m = new THREE.Mesh(satGeo, satMat);
+      rig.add(m);
+      return { m, r: 3 + i * 0.45, speed: 0.5 - i * 0.12, phase: i * 2.1, tilt: 0.5 - i * 0.45 };
+    });
+
     // blueprint floor
     const grid = new THREE.GridHelper(60, 60, 0x1d4ed8, 0x1e293b);
     grid.position.y = -3.4;
@@ -94,9 +105,10 @@ export default function HeroScene() {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       const wide = camera.aspect > 1.1;
-      baseY = wide ? 0 : 1.3;
+      // phones: model sits in the top half, text below it
+      baseY = wide ? 0 : 2.5;
       rig.position.set(wide ? 2.6 : 0, baseY, 0);
-      rig.scale.setScalar(wide ? 1 : 0.7);
+      rig.scale.setScalar(wide ? 1 : 0.46);
       if (reduce) renderer.render(scene, camera);
     };
     const ro = new ResizeObserver(fit);
@@ -109,6 +121,9 @@ export default function HeroScene() {
       target.y = e.clientY / window.innerHeight - 0.5;
     };
     window.addEventListener("pointermove", onMove, { passive: true });
+    let spin = 0;
+    const onDown = () => { spin = Math.min(spin + 3, 6); }; // tap or click gives the model a kick
+    window.addEventListener("pointerdown", onDown, { passive: true });
 
     let visible = true;
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
@@ -124,7 +139,23 @@ export default function HeroScene() {
       const k = 1 - Math.pow(0.002, dt);
       cur.x += (target.x - cur.x) * k;
       cur.y += (target.y - cur.y) * k;
-      shape.rotation.y += dt * 0.18;
+      const intro = 1 - Math.pow(1 - Math.min(t / 1.8, 1), 3); // assemble on load
+      const p = Math.min(window.scrollY / window.innerHeight, 1); // scroll progress through the hero
+      spin *= Math.pow(0.25, dt);
+      shape.rotation.y += dt * (0.18 + spin);
+      shell.scale.setScalar(intro * (1 + p * 0.7));
+      shell.rotation.z = (1 - intro) * 2;
+      wireMat.opacity = 0.5 * (1 - p * 0.7);
+      dotMat.opacity = 1 - p * 0.6;
+      core.scale.setScalar(intro * (1 - p * 0.35));
+      ring.scale.setScalar(0.4 + intro * 0.6 + p * 0.8);
+      ringMat.opacity = 0.75 * intro;
+      sats.forEach((s) => {
+        const a = t * s.speed + s.phase;
+        s.m.position.set(Math.cos(a) * s.r, Math.sin(a) * s.r * s.tilt, Math.sin(a) * s.r);
+        s.m.rotation.set(t, t * 1.3, 0);
+        s.m.scale.setScalar(intro);
+      });
       shape.rotation.x = Math.sin(t * 0.3) * 0.15;
       core.rotation.y -= dt * 0.35;
       core.rotation.z += dt * 0.12;
@@ -132,7 +163,7 @@ export default function HeroScene() {
       rig.rotation.x = cur.y * 0.35;
       rig.rotation.y = cur.x * 0.5;
       rig.position.y = baseY + Math.sin(t * 0.8) * 0.08;
-      camera.position.z = 10 + Math.min(window.scrollY / window.innerHeight, 1) * 3;
+      camera.position.z = 10 + p * 3;
       renderer.render(scene, camera);
     };
     if (!reduce) frame();
@@ -142,8 +173,9 @@ export default function HeroScene() {
       ro.disconnect();
       io.disconnect();
       window.removeEventListener("pointermove", onMove);
-      [ico, wireGeo, coreGeo, ringGeo, grid.geometry].forEach((g) => g.dispose());
-      [wireMat, dotMat, coreMat, ringMat, gridMat].forEach((m) => m.dispose());
+      window.removeEventListener("pointerdown", onDown);
+      [ico, wireGeo, coreGeo, ringGeo, satGeo, grid.geometry].forEach((g) => g.dispose());
+      [wireMat, dotMat, coreMat, ringMat, satMat, gridMat].forEach((m) => m.dispose());
       renderer.dispose();
       canvas.remove();
     };

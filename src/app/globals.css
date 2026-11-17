@@ -37,8 +37,23 @@ section[id], h2[id] { scroll-margin-top: 6rem; }
 /* keeps text readable where the model sits behind it on narrow screens */
 .hero-shade { background: linear-gradient(90deg, var(--color-page) 0%, rgba(7, 10, 18, 0.75) 40%, transparent 70%), linear-gradient(0deg, var(--color-page), transparent 25%); }
 @media (max-width: 767px) {
-  .hero-shade { background: linear-gradient(0deg, var(--color-page) 30%, rgba(7, 10, 18, 0.55) 60%, rgba(7, 10, 18, 0.2)); }
+  .hero-shade { background: linear-gradient(0deg, var(--color-page) 18%, rgba(7, 10, 18, 0.6) 48%, transparent 62%); }
+  .hero::before { background: radial-gradient(70% 40% at 50% 22%, rgba(14, 120, 249, 0.25), transparent 70%); }
 }
+
+/* skills globe: let the page scroll vertically on touch, drag spins horizontally */
+.globe { touch-action: pan-y; }
+.globe li { will-change: transform, opacity; }
+
+/* mobile menu */
+.menu summary::-webkit-details-marker { display: none; }
+.menu-icon, .menu-icon::before, .menu-icon::after { display: block; width: 16px; height: 1.5px; background: #e2e8f0; border-radius: 2px; transition: transform 0.25s, opacity 0.25s; position: relative; }
+.menu-icon::before, .menu-icon::after { content: ""; position: absolute; left: 0; }
+.menu-icon::before { top: -5px; }
+.menu-icon::after { top: 5px; }
+.menu[open] .menu-icon { background: transparent; }
+.menu[open] .menu-icon::before { transform: translateY(5px) rotate(45deg); }
+.menu[open] .menu-icon::after { transform: translateY(-5px) rotate(-45deg); }
 
 .eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: #94a3b8; }
 .text-gradient { background: linear-gradient(100deg, #93c5fd, #60a5fa 40%, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -87,7 +102,7 @@ section[id], h2[id] { scroll-margin-top: 6rem; }
   border-radius: 2px; background: #fff; animation: cue 1.8s ease-in-out infinite;
 }
 
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal { opacity: 0; transform: perspective(1200px) translateY(40px) rotateX(16deg); transform-origin: 50% 0%; transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .reveal.in { opacity: 1; transform: none; }
 .fade-up { animation: fade-up 1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
