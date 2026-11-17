@@ -274,7 +274,7 @@ export default function StackExperience({ children }: { children: React.ReactNod
       });
 
       const sx = narrow ? 0 : pose.x * 0.9;
-      const sy = narrow ? (i === 0 && f < 0.5 ? 1.85 : 1.75) + pose.y * 0.25 : pose.y;
+      const sy = narrow ? (i === 0 && f < 0.5 ? 2.15 : 1.75) + pose.y * 0.25 : pose.y;
       const ss = narrow ? pose.s * 0.55 : pose.s * 0.8;
       const bob = reduce ? 0 : Math.sin(time * 0.8) * 0.06;
       rig.position.set(sx, sy + bob, 0);

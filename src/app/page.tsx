@@ -55,21 +55,21 @@ export default function Home() {
         {/* Hero */}
         <section data-stop className="hero relative flex min-h-[100svh] items-end overflow-hidden md:items-center">
           <div className="hero-shade pointer-events-none absolute inset-0" />
-          <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-[40svh] md:pb-0 md:pt-24">
+          <div className="relative mx-auto w-full max-w-6xl px-5 pb-8 pt-[32svh] md:pb-0 md:pt-24">
             <div className="max-w-2xl">
               <p className="eyebrow fade-up">Khang Nguyen · Full-stack developer</p>
-              <h1 className="fade-up mt-5 font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-white md:text-7xl" style={{ animationDelay: "80ms" }}>
+              <h1 className="fade-up mt-4 font-display text-[2.4rem] font-semibold leading-[1.05] tracking-tight text-white md:text-7xl" style={{ animationDelay: "80ms" }}>
                 Websites people want to <span className="text-gradient">explore</span>, not just scroll.
               </h1>
-              <p className="fade-up mt-6 max-w-xl text-lg leading-relaxed text-slate-300" style={{ animationDelay: "160ms" }}>
+              <p className="fade-up mt-5 max-w-xl text-base leading-relaxed text-slate-300 md:mt-6 md:text-lg" style={{ animationDelay: "160ms" }}>
                 I build interactive 3D web experiences with Three.js, and the full-stack apps behind them.
-                Right now I work on browser-based 3D viewers for shipbuilding and industrial-plant engineering.
+                <span className="hidden sm:inline"> Right now I work on browser-based 3D viewers for shipbuilding and industrial-plant engineering.</span>
               </p>
-              <div className="fade-up mt-9 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
+              <div className="fade-up mt-7 flex flex-wrap gap-3 md:mt-9" style={{ animationDelay: "240ms" }}>
                 <a href="#work" className="btn-primary">View my work</a>
                 <a href={links.upwork} {...ext} className="btn-ghost">Hire me on Upwork ↗</a>
               </div>
-              <p className="fade-up mt-10 flex items-center gap-2 text-sm text-slate-400" style={{ animationDelay: "320ms" }}>
+              <p className="fade-up mt-6 flex items-center gap-2 text-sm text-slate-400 md:mt-10" style={{ animationDelay: "320ms" }}>
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
@@ -84,7 +84,7 @@ export default function Home() {
         {/* What I do: each step drives a pose of the 3D stack */}
         <div id="what" className="relative">
           {story.map((st, i) => (
-            <section key={st.title} data-stop aria-labelledby={`step-${i}`} className="flex min-h-[100svh] items-end md:items-center">
+            <section key={st.title} data-stop aria-labelledby={`step-${i}`} className="flex min-h-[78svh] items-end pt-[40svh] md:min-h-[100svh] md:items-center md:pt-0">
               <div className="mx-auto w-full max-w-6xl px-5 pb-10 md:pb-0">
                 <Reveal className="story-card max-w-md md:max-w-lg">
                   <p className="eyebrow">What I do · {String(i + 1).padStart(2, "0")} / {String(story.length).padStart(2, "0")}</p>
@@ -118,7 +118,7 @@ export default function Home() {
         </section>
 
         {/* Work */}
-        <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <section className="mx-auto max-w-6xl px-5 py-16 md:py-32">
           <Heading n="01 — Selected work" title="Things I've built" id="work" />
 
           <Reveal className="mt-12">
@@ -158,7 +158,7 @@ export default function Home() {
                   <h3 className="mt-3 font-display text-xl font-semibold text-white">{p.name}</h3>
                   <p className="mt-3 flex-1 leading-relaxed text-slate-400">{p.description}</p>
                   <div className="mt-5"><Chips items={p.stack} /></div>
-                  <a href={p.link.url} {...ext} className="mt-6 text-sm font-medium text-accent-text hover:text-white">{p.link.label} ↗</a>
+                  <a href={p.link.url} {...ext} className="mt-4 inline-flex min-h-11 items-center self-start text-sm font-medium text-accent-text hover:text-white">{p.link.label} ↗</a>
                 </TiltCard>
               </Reveal>
             ))}
@@ -166,9 +166,9 @@ export default function Home() {
         </section>
 
         {/* Experience */}
-        <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <section className="mx-auto max-w-6xl px-5 py-16 md:py-32">
           <Heading n="02 — Experience" title="Where I've worked" id="experience" />
-          <ol className="mt-14 space-y-4">
+          <ol className="mt-10 space-y-4 md:mt-14">
             {experience.map((e, i) => (
               <Reveal key={e.company} delay={i * 80}>
                 <li className="card grid gap-6 p-7 md:grid-cols-[200px_1fr] md:p-9">
@@ -188,7 +188,7 @@ export default function Home() {
                     <div className="mt-5 flex flex-wrap items-center gap-4">
                       <Chips items={e.stack} />
                       {e.links.map((l) => (
-                        <a key={l.url} href={l.url} {...ext} className="text-sm text-accent-text hover:text-white">{l.label} ↗</a>
+                        <a key={l.url} href={l.url} {...ext} className="inline-flex min-h-11 items-center text-sm text-accent-text hover:text-white">{l.label} ↗</a>
                       ))}
                     </div>
                   </div>
@@ -199,7 +199,7 @@ export default function Home() {
         </section>
 
         {/* Skills */}
-        <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <section className="mx-auto max-w-6xl px-5 py-16 md:py-32">
           <Heading n="03 — Skills" title="Tools I reach for" id="skills" />
           <div className="mt-10 grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
           <Reveal>
@@ -220,9 +220,9 @@ export default function Home() {
         </section>
 
         {/* About */}
-        <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
+        <section className="mx-auto max-w-6xl px-5 py-16 md:py-32">
           <Heading n="04 — About" title="A bit about me" id="about" />
-          <div className="mt-14 grid gap-6 md:grid-cols-[1.4fr_1fr]">
+          <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-[1.4fr_1fr]">
             <Reveal className="card p-8 text-lg leading-relaxed text-slate-300">
               <p>
                 I&apos;m a full-stack developer who cares most about the moment someone first sees a product on screen.
@@ -244,7 +244,7 @@ export default function Home() {
         </section>
 
         {/* Contact */}
-        <section id="contact" className="px-5 pb-24">
+        <section id="contact" className="px-5 pb-16 md:pb-24">
           <Reveal className="cta relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 px-6 py-16 text-center md:py-24">
             <h2 className="mx-auto max-w-3xl font-display text-3xl font-semibold tracking-tight text-white md:text-5xl">
               Have a product that deserves more than a flat page?
