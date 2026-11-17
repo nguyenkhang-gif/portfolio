@@ -90,3 +90,36 @@ export const skills = [
   { group: "Back-end", items: ["Node.js", "NestJS", "Express", "REST", "WebSocket", "MQTT", "SSE", "OAuth 2.0"] },
   { group: "Data & DevOps", items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Docker", "AWS EC2", "Nginx", "CI/CD"] },
 ];
+
+export const story = [
+  {
+    label: "3D & interaction",
+    title: "I start from raw geometry.",
+    body: "Three.js and WebGL, from wireframe to finished surface: scroll-driven scenes, exploded views and models people can turn over in the browser.",
+    tags: ["Three.js", "WebGL", "Cesium"],
+  },
+  {
+    label: "Interface",
+    title: "Then the layer people touch.",
+    body: "Clean, responsive interfaces in React, Next.js and Vue, taken from the design file to every screen size.",
+    tags: ["React", "Next.js", "Vue.js", "Tailwind CSS"],
+  },
+  {
+    label: "Real-time data",
+    title: "Data that moves while you watch.",
+    body: "Live GPS, sensor streams and alerts over MQTT, WebSocket and Server-Sent Events, as on the ThingIQ IoT platform.",
+    tags: ["MQTT", "WebSocket", "SSE"],
+  },
+  {
+    label: "Back-end & engineering",
+    title: "And the systems underneath.",
+    body: "Node.js and NestJS services on PostgreSQL, MongoDB and Redis, plus 3D engineering viewers for models with 8M+ nodes.",
+    tags: ["Node.js", "NestJS", "PostgreSQL", "Docker"],
+  },
+  {
+    label: "One product",
+    title: "All of it, put together.",
+    body: "One developer who can take a product from the first 3D sketch to the API behind it.",
+    tags: ["Full-stack", "Interactive 3D"],
+  },
+];

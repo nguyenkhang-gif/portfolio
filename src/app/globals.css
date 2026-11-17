@@ -8,6 +8,8 @@
   --color-accent-text: #60a5fa;
 }
 
+/* clip, not hidden: 3D reveals can poke past the edge, and hidden would break the sticky canvas */
+html, body { overflow-x: clip; }
 html { background: var(--color-page); }
 body {
   color: #e2e8f0;
@@ -27,18 +29,21 @@ section[id], h2[id] { scroll-margin-top: 6rem; }
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
 }
 
-.hero::before {
-  content: ""; position: absolute; inset: 0;
+.stack-glow {
   background:
     radial-gradient(40% 50% at 72% 45%, rgba(14, 120, 249, 0.22), transparent 70%),
     radial-gradient(30% 40% at 85% 70%, rgba(167, 139, 250, 0.14), transparent 70%);
 }
-.hero-canvas canvas { animation: fade 1.6s ease-out both; }
+.stack-canvas canvas { animation: fade 1.6s ease-out both; }
+/* story text: plain on desktop, a glass card over the model on phones */
+@media (max-width: 767px) {
+  .story-card { padding: 1.5rem; border-radius: 1.5rem; background: rgba(7, 10, 18, 0.78); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+}
 /* keeps text readable where the model sits behind it on narrow screens */
 .hero-shade { background: linear-gradient(90deg, var(--color-page) 0%, rgba(7, 10, 18, 0.75) 40%, transparent 70%), linear-gradient(0deg, var(--color-page), transparent 25%); }
 @media (max-width: 767px) {
   .hero-shade { background: linear-gradient(0deg, var(--color-page) 18%, rgba(7, 10, 18, 0.6) 48%, transparent 62%); }
-  .hero::before { background: radial-gradient(70% 40% at 50% 22%, rgba(14, 120, 249, 0.25), transparent 70%); }
+  .stack-glow { background: radial-gradient(70% 40% at 50% 24%, rgba(14, 120, 249, 0.25), transparent 70%); }
 }
 
 /* skills globe: let the page scroll vertically on touch, drag spins horizontally */
@@ -113,5 +118,5 @@ section[id], h2[id] { scroll-margin-top: 6rem; }
 @media (prefers-reduced-motion: reduce) {
   .tilt { transform: none !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .fade-up, .hero-canvas canvas, .scroll-cue::after { animation: none; }
+  .fade-up, .stack-canvas canvas, .scroll-cue::after { animation: none; }
 }

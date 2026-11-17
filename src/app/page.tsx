@@ -1,11 +1,11 @@
 import Image from "next/image";
-import HeroScene from "@/components/HeroScene";
+import StackExperience from "@/components/StackExperience";
 import Reveal from "@/components/Reveal";
 import TiltCard from "@/components/TiltCard";
 import SkillsGlobe from "@/components/SkillsGlobe";
 import MobileMenu from "@/components/MobileMenu";
 import velaShot from "@/assets/vela-one.jpg";
-import { experience, featured, links, projects, skills, stats } from "@/data";
+import { experience, featured, links, projects, skills, stats, story } from "@/data";
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
@@ -37,6 +37,7 @@ export default function Home() {
             KN<span className="text-accent-text">.</span>
           </a>
           <div className="hidden items-center gap-8 text-sm text-slate-400 md:flex">
+            <a href="#what" className="hover:text-white">What I do</a>
             <a href="#work" className="hover:text-white">Work</a>
             <a href="#experience" className="hover:text-white">Experience</a>
             <a href="#skills" className="hover:text-white">Skills</a>
@@ -50,9 +51,9 @@ export default function Home() {
       </header>
 
       <main id="top">
+        <StackExperience>
         {/* Hero */}
-        <section className="hero relative flex min-h-[100svh] items-end overflow-hidden md:items-center">
-          <HeroScene />
+        <section data-stop className="hero relative flex min-h-[100svh] items-end overflow-hidden md:items-center">
           <div className="hero-shade pointer-events-none absolute inset-0" />
           <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-[40svh] md:pb-0 md:pt-24">
             <div className="max-w-2xl">
@@ -77,8 +78,32 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <a href="#work" aria-label="Scroll to work" className="scroll-cue absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block" />
+          <a href="#what" aria-label="Scroll to what I do" className="scroll-cue absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block" />
         </section>
+
+        {/* What I do: each step drives a pose of the 3D stack */}
+        <div id="what" className="relative">
+          {story.map((st, i) => (
+            <section key={st.title} data-stop aria-labelledby={`step-${i}`} className="flex min-h-[100svh] items-end md:items-center">
+              <div className="mx-auto w-full max-w-6xl px-5 pb-10 md:pb-0">
+                <Reveal className="story-card max-w-md md:max-w-lg">
+                  <p className="eyebrow">What I do · {String(i + 1).padStart(2, "0")} / {String(story.length).padStart(2, "0")}</p>
+                  <p className="mt-4 text-sm font-medium uppercase tracking-[0.2em] text-accent-text">{st.label}</p>
+                  <h2 id={`step-${i}`} className="mt-2 font-display text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">{st.title}</h2>
+                  <p className="mt-5 text-lg leading-relaxed text-slate-300">{st.body}</p>
+                  <div className="mt-6"><Chips items={st.tags} /></div>
+                  {i === story.length - 1 && (
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <a href="#work" className="btn-primary">See the work</a>
+                      <a href={links.upwork} {...ext} className="btn-ghost">Hire me ↗</a>
+                    </div>
+                  )}
+                </Reveal>
+              </div>
+            </section>
+          ))}
+        </div>
+        </StackExperience>
 
         {/* Stats */}
         <section className="border-y border-white/5 bg-white/[0.015]">
